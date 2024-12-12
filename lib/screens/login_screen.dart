@@ -15,6 +15,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final String adminEmail = 'admin@gmail.com';
   final String adminPassword = 'admin';
 
+  // Key for form validation
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       'assets/logo.png',
                       height: 150,
                     ),
-                    SizedBox(height: 80),
+                    SizedBox(height: 30),
 
                     // Login Text
                     Text(
@@ -60,131 +63,148 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // Middle Section
               Flexible(
-                flex: 4,
+                flex: 10,
                 fit: FlexFit.tight,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Email TextField
-                      TextField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                          labelStyle: TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.1),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Form(
+                    key: _formKey, // Attach form key
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Email TextFormField
+                        TextFormField(
+                          controller: emailController,
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            labelStyle: TextStyle(color: Colors.white),
+                            filled: true,
+                            fillColor: Colors.white.withOpacity(0.1),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                        ),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      SizedBox(height: 20),
-
-                      // Password TextField
-                      TextField(
-                        controller: passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          labelStyle: TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.1),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      SizedBox(height: 10),
-
-                      // Forgot Password Text (left aligned)
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: TextButton(
-                          onPressed: () {
-                            // Handle Forgot Password
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Forgot Password tapped')),
-                            );
+                          style: TextStyle(color: Colors.white),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            return null;
                           },
-                          child: Text(
-                            'Forgot Password?',
-                            style: TextStyle(color: Colors.white),
-                          ),
                         ),
-                      ),
-                      SizedBox(height: 30),
+                        SizedBox(height: 20),
 
-                      // Login Button
-                      ElevatedButton(
-                        onPressed: () {
-                          String email = emailController.text.trim();
-                          String password = passwordController.text.trim();
-
-                          if (email == adminEmail &&
-                              password == adminPassword) {
-                            // Navigate to DashboardScreen on successful login
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DashboardScreen()),
-                            );
-                          } else {
-                            // Show error message if login fails
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Invalid email or password'),
-                              ),
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 50, vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                        // Password TextFormField
+                        TextFormField(
+                          controller: passwordController,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            labelStyle: TextStyle(color: Colors.white),
+                            filled: true,
+                            fillColor: Colors.white.withOpacity(0.1),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
+                          style: TextStyle(color: Colors.white),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            return null;
+                          },
                         ),
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 15),
+                        SizedBox(height: 10),
 
-                      // Don't have an account Text
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account? ",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          TextButton(
+                        // Forgot Password Text (left aligned)
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: TextButton(
                             onPressed: () {
-                              // Navigate to RegistrationScreen
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RegistrationScreen()),
+                              // Handle Forgot Password
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text('Forgot Password tapped')),
                               );
                             },
                             child: Text(
-                              "Create one",
+                              'Forgot Password?',
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        SizedBox(height: 30),
+
+                        // Login Button
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              String email = emailController.text.trim();
+                              String password = passwordController.text.trim();
+
+                              if (email == adminEmail &&
+                                  password == adminPassword) {
+                                // Navigate to DashboardScreen on successful login
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DashboardScreen()),
+                                );
+                              } else {
+                                // Show error message if login fails
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Invalid email or password'),
+                                  ),
+                                );
+                              }
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+
+                        // Don't have an account Text
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "Don't have an account? ",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                // Navigate to RegistrationScreen
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          RegistrationScreen()),
+                                );
+                              },
+                              child: const Text(
+                                "Create one",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
