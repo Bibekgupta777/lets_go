@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               // Top Section
               Flexible(
-                flex: 5,
+                flex: 9,
                 fit: FlexFit.tight,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // Middle Section
               Flexible(
-                flex: 10,
+                flex: 8,
                 fit: FlexFit.tight,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -211,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // Bottom Section
               Flexible(
-                flex: 2,
+                flex: 3,
                 fit: FlexFit.tight,
                 child: Center(
                   child: ElevatedButton.icon(
