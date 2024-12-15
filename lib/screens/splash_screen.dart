@@ -1,11 +1,9 @@
-
-// import 'package:demo_test/screens/home_screen.dart';
-// import 'package:demo_test/screens/login_screen.dart';
-import 'package:demo_test/screens/login_screen.dart';
 import 'package:flutter/material.dart';
-// Import LoginScreen
+import 'onboarding_screen.dart'; // Import OnboardingScreen
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -15,11 +13,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    // Set a delay of 3 seconds before navigating to the LoginScreen
-    Future.delayed(Duration(seconds: 3), () {
+    // Delay of 3 seconds before navigating to the OnboardingScreen
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
+        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
       );
     });
   }
@@ -29,7 +27,8 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
+        height: double.infinity,
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.red, Colors.lightBlueAccent],
             begin: Alignment.topLeft,
@@ -37,27 +36,40 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Center all content
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Welcome Text
-            Padding(
-              padding: const EdgeInsets.only(top: 50.0), // Reduced top padding
-              child: Text(
-                'Welcome',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+            // Logo Section
+            Image.asset(
+              'assets/logo.png', // Ensure logo.png exists in your assets folder
+              height: 150, // Adjust logo size
+            ),
+            const SizedBox(height: 50),
+
+            // Welcome Text Section
+            const Text(
+              'Welcome to Demo Test',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
-            SizedBox(height: 80),
-            // Logo (increased size)
-            Image.asset(
-              'assets/logo.png', // Place your logo in the assets folder
-              height: 200, // Increased size of the logo
+            const SizedBox(height: 20),
+
+            // Loading Indicator Section
+            const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
             ),
-            SizedBox(height: 80), // Add spacing for better UI
+            const SizedBox(height: 20),
+
+            // Subtitle Text Section
+            const Text(
+              'Your app journey starts here!',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white70,
+              ),
+            ),
           ],
         ),
       ),

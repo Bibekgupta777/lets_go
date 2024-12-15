@@ -76,7 +76,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     // Logo
                     Image.asset(
                       'assets/logo.png',
-                      height: 120,
+                      height: 150,
                     ),
                     SizedBox(height: 50),
 
