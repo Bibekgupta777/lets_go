@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 ThemeData getApplicationTheme() {
   return ThemeData(
-    primarySwatch: Colors.orange,
-    scaffoldBackgroundColor: Colors.lightBlue[400],
+    primarySwatch: Colors.green,
+    scaffoldBackgroundColor: Colors.white,
     fontFamily: 'Montserrat Regular',
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -20,7 +20,7 @@ ThemeData getApplicationTheme() {
       ),
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: Colors.white,
       elevation: 4,
       centerTitle: true,
       titleTextStyle: TextStyle(

@@ -5,6 +5,6 @@ class AboutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text("Your Tickets"));
+    return const Center(child: Text("About Us"));
   }
 }

@@ -79,13 +79,41 @@ class _HomeViewState extends State<HomeView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header Section
-            const Text(
-              "Hello ",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+            // Header Section with Icons on the right side
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Hello, Bibek ",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.notifications),
+                      onPressed: () {
+                        // Add your notification functionality here
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Notifications clicked!')),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.account_circle),
+                      onPressed: () {
+                        // Add your profile functionality here
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Profile clicked!')),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
             const SizedBox(height: 8),
             const Text(
@@ -103,12 +131,12 @@ class _HomeViewState extends State<HomeView> {
                 controller: _pageController,
                 children: [
                   _carouselImage('assets/images/download.jpg'),
-                  _carouselImage('assets/images/download (1).jpg'),
-                  _carouselImage('assets/images/download (2).jpg'),
+                  _carouselImage('assets/images/download (3).jpg'),
+                  _carouselImage('assets/images/download (4).jpg'),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
 
             // Location, Date, Time Inputs, and Search Button
             _sectionTitle("From"),
@@ -166,14 +194,54 @@ class _HomeViewState extends State<HomeView> {
             ),
             const SizedBox(height: 20),
 
-            // Footer Section
-            const Divider(),
-            const Center(
-              child: Text(
-                "© 2024 Bus Booking System",
-                style: TextStyle(
-                  fontSize: 14,
-                ),
+            // Footer Section with additional actions
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: Column(
+                children: [
+                  // Social Media Links or Other Useful Actions
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.help_outline),
+                        onPressed: () {
+                          // Help button functionality
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Help clicked!')),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.contact_mail),
+                        onPressed: () {
+                          // Contact us button functionality
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Contact Us clicked!')),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.feedback),
+                        onPressed: () {
+                          // Feedback button functionality
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Feedback clicked!')),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "© 2024 Let`s Go. All Rights Reserved.",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -185,9 +253,21 @@ class _HomeViewState extends State<HomeView> {
   Widget _carouselImage(String imagePath) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: Image.asset(
-        imagePath,
-        fit: BoxFit.cover,
+      child: Container(
+        decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black, // Shadow color with opacity
+              blurRadius: 8, // Blur radius to make the shadow softer
+              offset:
+                  Offset(0, 4), // Horizontal and vertical offset of the shadow
+            ),
+          ],
+        ),
+        child: Image.asset(
+          imagePath,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -216,7 +296,24 @@ class _HomeViewState extends State<HomeView> {
             prefixIcon: icon != null ? Icon(icon) : null,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
+              borderSide: const BorderSide(
+                color: Colors.black, // Black outline
+                width: 1.0, // Border width
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Colors.black, // Black outline when focused
+                width: 1.5, // Slightly thicker border on focus
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Colors.black, // Black outline when enabled
+                width: 1.0, // Regular border width
+              ),
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 20),

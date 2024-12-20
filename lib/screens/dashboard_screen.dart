@@ -1,6 +1,6 @@
 import 'package:demo_test/screens/buttom_navigation_bar/about_view.dart';
-import 'package:demo_test/screens/buttom_navigation_bar/contact_us.dart';
 import 'package:demo_test/screens/buttom_navigation_bar/home_view.dart';
+import 'package:demo_test/screens/buttom_navigation_bar/offer_view.dart';
 import 'package:demo_test/screens/buttom_navigation_bar/profile_view.dart';
 import 'package:demo_test/screens/buttom_navigation_bar/tickets.dart';
 import 'package:flutter/material.dart';
@@ -17,37 +17,43 @@ class _BottomNavigationViewState extends State<BottomNavigationView> {
 
   List<Widget> lstBottomScreen = [
     const HomeView(),
+    const Tickets(),
+    const OfferView(),
     const AboutView(),
     const ProfileView(),
-    const Tickets(),
-    const ContactUs(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Welcome"),
+        backgroundColor: Colors.blue,
+        title: const Text(
+          "Welcome",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
       ),
       body: lstBottomScreen[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
+        selectedItemColor: Colors.deepOrange,
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.circle),
+            icon: Icon(Icons.confirmation_num),
             label: 'Tickets',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.circle),
-            label: 'Contact Us',
+            icon: Icon(Icons.local_offer),
+            label: 'Offers',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.circle),
+            icon: Icon(Icons.info),
             label: 'About Us',
           ),
           BottomNavigationBarItem(
