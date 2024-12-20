@@ -1,8 +1,12 @@
+import 'package:demo_test/screens/dashboard_screen.dart';
 import 'package:flutter/material.dart';
-import 'dashboard_screen.dart'; // Import DashboardScreen
+
+// Import DashboardScreen
 import 'registration_screen.dart'; // Import RegistrationScreen
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -25,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.lightBlueAccent, Colors.red],
               begin: Alignment.topLeft,
@@ -43,13 +47,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     // Logo
                     Image.asset(
-                      'assets/logo.png',
+                      'assets/images/logo.png',
                       height: 150,
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
 
                     // Login Text
-                    Text(
+                    const Text(
                       'Login',
                       style: TextStyle(
                         fontSize: 35,
@@ -77,14 +81,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: emailController,
                           decoration: InputDecoration(
                             labelText: 'Email',
-                            labelStyle: TextStyle(color: Colors.white),
+                            labelStyle: const TextStyle(color: Colors.white),
                             filled: true,
                             fillColor: Colors.white.withOpacity(0.1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your email';
@@ -92,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
                         // Password TextFormField
                         TextFormField(
@@ -100,14 +104,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           obscureText: true,
                           decoration: InputDecoration(
                             labelText: 'Password',
-                            labelStyle: TextStyle(color: Colors.white),
+                            labelStyle: const TextStyle(color: Colors.white),
                             filled: true,
                             fillColor: Colors.white.withOpacity(0.1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your password';
@@ -115,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
 
                         // Forgot Password Text (left aligned)
                         Align(
@@ -124,17 +128,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               // Handle Forgot Password
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                     content: Text('Forgot Password tapped')),
                               );
                             },
-                            child: Text(
+                            child: const Text(
                               'Forgot Password?',
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
 
                         // Login Button
                         ElevatedButton(
@@ -149,12 +153,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => DashboardScreen()),
+                                      builder: (context) =>
+                                          const BottomNavigationView()),
                                 );
                               } else {
                                 // Show error message if login fails
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text('Invalid email or password'),
                                   ),
                                 );
@@ -162,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 50, vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
@@ -176,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
 
                         // Don't have an account Text
                         Row(
@@ -193,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          RegistrationScreen()),
+                                          const RegistrationScreen()),
                                 );
                               },
                               child: const Text(
@@ -218,14 +223,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       // Handle Login with Google
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Login with Google tapped')),
+                        const SnackBar(
+                            content: Text('Login with Google tapped')),
                       );
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.login,
                       color: Colors.red,
                     ),
-                    label: Text(
+                    label: const Text(
                       'Login with Google',
                       style: TextStyle(
                         fontSize: 16,
@@ -234,8 +240,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'onboarding_screen.dart'; // Import OnboardingScreen
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -40,14 +41,14 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             // Logo Section
             Image.asset(
-              'assets/logo.png', // Ensure logo.png exists in your assets folder
+              'assets/images/logo.png', // Ensure logo.png exists in your assets folder
               height: 150, // Adjust logo size
             ),
             const SizedBox(height: 50),
 
             // Welcome Text Section
             const Text(
-              'Welcome to Demo Test',
+              'Welcome',
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,

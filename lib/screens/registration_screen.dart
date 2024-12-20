@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'login_screen.dart'; // Import LoginScreen
 
 class RegistrationScreen extends StatefulWidget {
+  const RegistrationScreen({super.key});
+
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
@@ -20,6 +23,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   // Method for registration
   void _register() {
     if (_formKey.currentState?.validate() ?? false) {
+      // ignore: unused_local_variable
       String fullName = fullNameController.text;
       String phoneNumber = phoneNumberController.text;
       String email = emailController.text;
@@ -28,11 +32,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
       if (password == confirmPassword) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration Successful')),
+          const SnackBar(content: Text('Registration Successful')),
         );
 
         // Navigate to LoginScreen
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(const Duration(seconds: 1), () {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -40,12 +44,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Passwords do not match')),
+          const SnackBar(content: Text('Passwords do not match')),
         );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please fill all fields')),
+        const SnackBar(content: Text('Please fill all fields')),
       );
     }
   }
@@ -57,7 +61,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         child: Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.lightBlueAccent, Colors.red],
               begin: Alignment.topLeft,
@@ -75,13 +79,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   children: [
                     // Logo
                     Image.asset(
-                      'assets/logo.png',
+                      'assets/images/logo.png',
                       height: 150,
                     ),
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
 
                     // Sign Up Text
-                    Text(
+                    const Text(
                       'Sign Up',
                       style: TextStyle(
                         fontSize: 35,
@@ -109,14 +113,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           controller: fullNameController,
                           decoration: InputDecoration(
                             labelText: 'Full Name',
-                            labelStyle: TextStyle(color: Colors.white),
+                            labelStyle: const TextStyle(color: Colors.white),
                             filled: true,
                             fillColor: Colors.white.withOpacity(0.1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your full name';
@@ -124,21 +128,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
                         // Phone Number TextFormField
                         TextFormField(
                           controller: phoneNumberController,
                           decoration: InputDecoration(
                             labelText: 'Phone Number',
-                            labelStyle: TextStyle(color: Colors.white),
+                            labelStyle: const TextStyle(color: Colors.white),
                             filled: true,
                             fillColor: Colors.white.withOpacity(0.1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your phone number';
@@ -146,21 +150,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
                         // Email TextFormField
                         TextFormField(
                           controller: emailController,
                           decoration: InputDecoration(
                             labelText: 'Email',
-                            labelStyle: TextStyle(color: Colors.white),
+                            labelStyle: const TextStyle(color: Colors.white),
                             filled: true,
                             fillColor: Colors.white.withOpacity(0.1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your email';
@@ -168,7 +172,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
                         // Password TextFormField
                         TextFormField(
@@ -176,14 +180,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           obscureText: true,
                           decoration: InputDecoration(
                             labelText: 'Password',
-                            labelStyle: TextStyle(color: Colors.white),
+                            labelStyle: const TextStyle(color: Colors.white),
                             filled: true,
                             fillColor: Colors.white.withOpacity(0.1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your password';
@@ -191,7 +195,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
                         // Confirm Password TextFormField
                         TextFormField(
@@ -199,14 +203,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           obscureText: true,
                           decoration: InputDecoration(
                             labelText: 'Confirm Password',
-                            labelStyle: TextStyle(color: Colors.white),
+                            labelStyle: const TextStyle(color: Colors.white),
                             filled: true,
                             fillColor: Colors.white.withOpacity(0.1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please confirm your password';
@@ -214,19 +218,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
 
                         // Sign Up Button
                         ElevatedButton(
                           onPressed: _register,
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 50, vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Sign Up',
                             style: TextStyle(
                               fontSize: 18,
@@ -234,13 +238,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
 
                         // Already have an account Text
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            const Text(
                               "Already have an account? ",
                               style: TextStyle(color: Colors.white),
                             ),
@@ -252,7 +256,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       builder: (context) => LoginScreen()),
                                 );
                               },
-                              child: Text(
+                              child: const Text(
                                 "Login",
                                 style: TextStyle(color: Colors.white),
                               ),

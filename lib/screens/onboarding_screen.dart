@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'login_screen.dart'; // Import LoginScreen
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -36,17 +37,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               },
               children: const [
                 OnboardingPage(
-                  image: 'assets/logo.png',
-                  title: 'Welcome to Demo Test',
+                  image: 'assets/images/logo.png',
+                  title: 'Welcome ',
                   description: 'Your all-in-one solution for mobile apps.',
                 ),
                 OnboardingPage(
-                  image: 'assets/logo.png',
+                  image: 'assets/images/logo2.png',
                   title: 'Fast & Reliable',
                   description: 'Experience lightning-fast performance.',
                 ),
                 OnboardingPage(
-                  image: 'assets/logo.png',
+                  image: 'assets/images/logo3.png',
                   title: 'Start Today',
                   description: 'Sign up and explore amazing features.',
                 ),
@@ -107,7 +108,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>  LoginScreen(),
+                              builder: (context) => const LoginScreen(),
                             ),
                           );
                         },
@@ -128,7 +129,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>  LoginScreen(),
+                                builder: (context) => const LoginScreen(),
                               ),
                             );
                           },
@@ -186,11 +187,11 @@ class OnboardingPage extends StatelessWidget {
   final String description;
 
   const OnboardingPage({
-    Key? key,
+    super.key,
     required this.image,
     required this.title,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

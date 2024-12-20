@@ -1,5 +1,5 @@
 name: demo_test
-description: "A new Flutter project."
+description: "An Online Bus Ticket Booking System."
 
 publish_to: 'none' # Prevents publishing to pub.dev
 
@@ -22,4 +22,8 @@ flutter:
 
   # Assets section to include any assets in the project
   assets:
-    - assets/logo.png
+    - assets/images/
+    # Logo of the app
+    # - assets/top_photo.jpg     # Top photo in the dashboard
+    # - assets/bottom_photo.jpg  # Bottom photo in the dashboard
+    # Add other images or files here as needed

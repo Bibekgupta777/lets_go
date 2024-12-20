@@ -17,38 +17,36 @@
 
 //   List<Widget> lstBottomScreen = [
 //     const HomeView(),
+//     const ContactUs(),
 //     const AboutView(),
 //     const ProfileView(),
 //     const Tickets(),
-//     const ContactUs(),
 //   ];
 
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       appBar: AppBar(
-//         title: const Text("Welcome"),
+//         title: const Text("Bottom Navigation View"),
+//         centerTitle: true,
+//         // backgroundColor: Colors.grey,
 //       ),
 //       body: lstBottomScreen[_selectedIndex],
 //       bottomNavigationBar: BottomNavigationBar(
 //         type: BottomNavigationBarType.fixed,
-//         backgroundColor: Colors.white,
+//         backgroundColor: Colors.yellow, // Set the background color to red
 //         items: const [
 //           BottomNavigationBarItem(
 //             icon: Icon(Icons.home),
 //             label: 'Home',
 //           ),
 //           BottomNavigationBarItem(
-//             icon: Icon(Icons.circle),
-//             label: 'Tickets',
+//             icon: Icon(Icons.shopping_bag),
+//             label: 'Cart',
 //           ),
 //           BottomNavigationBarItem(
 //             icon: Icon(Icons.circle),
-//             label: 'Contact Us',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.circle),
-//             label: 'About Us',
+//             label: 'About',
 //           ),
 //           BottomNavigationBarItem(
 //             icon: Icon(Icons.person),
