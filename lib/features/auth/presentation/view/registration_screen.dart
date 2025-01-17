@@ -1,4 +1,3 @@
-import 'package:demo_test/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:demo_test/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -137,22 +136,23 @@ class RegistrationView extends StatelessWidget {
                         // Sign Up Button
                         ElevatedButton(
                           onPressed: () {
-                      if (_registerViewFormKey.currentState!.validate()) {
-                        context.read<RegisterBloc>().add(
-                              RegisterUserEvent(
-                                context: context,
-                                fullName: fullNameController.text.trim(),
-                                email: emailController.text.trim(),
-                                password: passwordController.text.trim(),
-                              ),
-                            );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Please fill all the feilds')),
-                        );
-                      }
-                    },
+                            if (_registerViewFormKey.currentState!.validate()) {
+                              context.read<RegisterBloc>().add(
+                                    RegisterUserEvent(
+                                      context: context,
+                                      fullName: fullNameController.text.trim(),
+                                      email: emailController.text.trim(),
+                                      password: passwordController.text.trim(),
+                                    ),
+                                  );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text('Please fill all the feilds')),
+                              );
+                            }
+                          },
                           child: const Text(
                             'Sign Up',
                             style: TextStyle(
@@ -172,7 +172,7 @@ class RegistrationView extends StatelessWidget {
                               style: TextStyle(color: Colors.white),
                             ),
                             TextButton(
-                              onPressed: (){},
+                              onPressed: () {},
                               child: const Text(
                                 "Login",
                                 style: TextStyle(color: Colors.white),
