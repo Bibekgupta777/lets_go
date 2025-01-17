@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class DashboardView extends StatefulWidget {
@@ -11,8 +10,6 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   int _selectedIndex = 0;
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +20,6 @@ class _DashboardViewState extends State<DashboardView> {
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
-      
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.deepOrange,
@@ -37,10 +33,6 @@ class _DashboardViewState extends State<DashboardView> {
           BottomNavigationBarItem(
             icon: Icon(Icons.confirmation_num),
             label: 'Tickets',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_offer),
-            label: 'Offers',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.info),

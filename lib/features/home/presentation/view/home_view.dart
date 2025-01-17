@@ -1,3 +1,6 @@
+
+
+
 import 'package:demo_test/features/home/presentation/view_model/home_cubit.dart';
 import 'package:demo_test/features/home/presentation/view_model/home_state.dart';
 import 'package:flutter/material.dart';
@@ -17,17 +20,18 @@ class HomeView extends StatelessWidget {
       bottomNavigationBar: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           return BottomNavigationBar(
+            type: BottomNavigationBarType.fixed, // Disables animation
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.airplane_ticket),
+                icon: Icon(Icons.taxi_alert_outlined),
                 label: 'Tickets',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.circle),
+                icon: Icon(Icons.account_box),
                 label: 'About Us',
               ),
               BottomNavigationBarItem(
