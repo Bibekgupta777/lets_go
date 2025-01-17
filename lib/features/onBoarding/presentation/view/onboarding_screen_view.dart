@@ -1,10 +1,5 @@
-import 'package:demo_test/core/common/widgets/custom_elevated_button.dart';
-import 'package:demo_test/core/common/widgets/onboarding_element.dart';
-import 'package:demo_test/features/onBoarding/presentation/view_model/onboarding_cubit.dart';
+import 'package:demo_test/features/auth/presentation/view/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -14,70 +9,216 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final pageController = PageController();
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
+  final PageController _pageController = PageController();
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              SizedBox(
-                  height: 670,
-                  child: PageView(
-                    controller: pageController,
-                    allowImplicitScrolling: true,
-                    children: const [
-                      OnboardingElement(
-                        subtitle:
-                            "Explore a wide variety of books to buy and sell at your convenience",
-                        imagePath: "assets/images/onboarding1.png",
-                      ),
-                      OnboardingElement(
-                        subtitle:
-                            "Buy and sell books with confidence through a secure platform",
-                        imagePath: "assets/images/onboarding2.png",
-                      ),
-                      OnboardingElement(
-                        subtitle:
-                            "Engage with a community of readers and book lovers",
-                        imagePath: 'assets/images/onboarding3.png',
-                      ),
-                    ],
-                  )),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 65.0),
-                child: SmoothPageIndicator(
-                  controller: pageController,
-                  count: 3,
-                  effect: const SlideEffect(
-                      activeDotColor: Colors.black,
-                      dotColor: Colors.black45,
-                      dotHeight: 12,
-                      dotWidth: 12),
-                ),
-              ),
-              CustomElevatedButton(
-                text: "Continue",
-                onPressed: () {
-                  context.read<OnboardingCubit>().navigateToLogin(context);
-                },
-                width: double.infinity,
-                textColor: Colors.white,
-                verticalPadding: 18.0,
-                fontSize: 18.0,
-              ),
-            ],
+      body: Container(
+        // Gradient background color
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.red, Colors.lightBlueAccent],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
         ),
+        child: Stack(
+          children: [
+            // PageView for swiping between onboarding pages
+            PageView(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+              children: const [
+                OnboardingPage(
+                  image: 'assets/images/logo.png',
+                  title: 'Welcome ',
+                  description: 'Your all-in-one solution for mobile apps.',
+                ),
+                OnboardingPage(
+                  image: 'assets/images/logo2.png',
+                  title: 'Fast & Reliable',
+                  description: 'Experience lightning-fast performance.',
+                ),
+                OnboardingPage(
+                  image: 'assets/images/logo3.png',
+                  title: 'Start Today',
+                  description: 'Sign up and explore amazing features.',
+                ),
+              ],
+            ),
+            // Dot Indicators and Buttons
+            Positioned(
+              bottom: 40,
+              left: 0,
+              right: 0,
+              child: Column(
+                children: [
+                  // Dot Indicators
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      3,
+                      (index) => AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        width: _currentIndex == index ? 12 : 8,
+                        height: _currentIndex == index ? 12 : 8,
+                        decoration: BoxDecoration(
+                          color: _currentIndex == index
+                              ? Colors.blue
+                              : Colors.black,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // Row of Buttons (Back, Skip, Next)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Back Button
+                      if (_currentIndex > 0)
+                        TextButton(
+                          onPressed: () {
+                            _pageController.previousPage(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.ease,
+                            );
+                          },
+                          child: const Text(
+                            'Back',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+
+                      // Skip Button
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginView(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Skip',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+
+                      // Next or Get Started Button
+                      if (_currentIndex == 2)
+                        ElevatedButton(
+                          onPressed: () {
+                            // Navigate to the Login screen
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginView(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 50,
+                              vertical: 15,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: const Text(
+                            'Get Started',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        )
+                      else
+                        ElevatedButton(
+                          onPressed: () {
+                            _pageController.nextPage(
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.ease,
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 50,
+                              vertical: 15,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: const Text(
+                            'Next',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class OnboardingPage extends StatelessWidget {
+  final String image;
+  final String title;
+  final String description;
+
+  const OnboardingPage({
+    super.key,
+    required this.image,
+    required this.title,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            image,
+            height: 250,
+          ),
+          const SizedBox(height: 30),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 15),
+          Text(
+            description,
+            style: const TextStyle(fontSize: 16, color: Colors.black),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }
