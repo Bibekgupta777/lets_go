@@ -1,7 +1,13 @@
-import 'package:demo_test/app.dart';
 import 'package:flutter/material.dart';
+import 'package:demo_test/app/app.dart';
+import 'package:demo_test/app/di/di.dart';
+import 'package:demo_test/core/network/hive_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await HiveService().init();
+
+  await initDependencies();
   runApp(const MyApp());
 }
-
