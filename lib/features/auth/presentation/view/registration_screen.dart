@@ -21,15 +21,43 @@ class _RegistrationViewState extends State<RegistrationView> {
   final _registerViewFormKey = GlobalKey<FormState>();
   File? _img;
 
-  // Request runtime camera permission
-  Future<void> checkCameraPermission() async {
-    var status = await Permission.camera.request();
-    if (status.isDenied || status.isRestricted) {
-      await Permission.camera.request();
-    }
+  // Request camera and storage permission
+  Future<void> checkPermissions() async {
+    await Permission.camera.request();
+    await Permission.storage.request();
   }
 
-  // Pick an image from the gallery or camera
+  // Open dialog to choose camera or gallery
+  void _showImagePickerDialog() {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      builder: (context) {
+        return Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera),
+              title: const Text('Camera'),
+              onTap: () {
+                Navigator.pop(context);
+                _browseImage(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo),
+              title: const Text('Gallery'),
+              onTap: () {
+                Navigator.pop(context);
+                _browseImage(ImageSource.gallery);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Pick image from camera or gallery
   Future<void> _browseImage(ImageSource imageSource) async {
     try {
       final image = await ImagePicker().pickImage(source: imageSource);
@@ -42,6 +70,19 @@ class _RegistrationViewState extends State<RegistrationView> {
     } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+  // Handle registration success
+  void _onRegistrationSuccess(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Registration successful!')),
+    );
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginView()),
+      );
+    });
   }
 
   @override
@@ -70,7 +111,7 @@ class _RegistrationViewState extends State<RegistrationView> {
               ),
               const SizedBox(height: 50),
               GestureDetector(
-                onTap: () => _browseImage(ImageSource.gallery),
+                onTap: _showImagePickerDialog,
                 child: CircleAvatar(
                   radius: 60,
                   backgroundColor: Colors.white,
@@ -88,7 +129,6 @@ class _RegistrationViewState extends State<RegistrationView> {
                   key: _registerViewFormKey,
                   child: Column(
                     children: [
-                      // Full Name Field
                       TextFormField(
                         controller: _nameController,
                         decoration: InputDecoration(
@@ -100,16 +140,11 @@ class _RegistrationViewState extends State<RegistrationView> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         style: const TextStyle(color: Colors.white),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your full name';
-                          }
-                          return null;
-                        },
+                        validator: (value) => value == null || value.isEmpty
+                            ? 'Please enter your full name'
+                            : null,
                       ),
                       const SizedBox(height: 30),
-
-                      // Email Field
                       TextFormField(
                         controller: _emailController,
                         decoration: InputDecoration(
@@ -121,16 +156,11 @@ class _RegistrationViewState extends State<RegistrationView> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         style: const TextStyle(color: Colors.white),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                          return null;
-                        },
+                        validator: (value) => value == null || value.isEmpty
+                            ? 'Please enter your email'
+                            : null,
                       ),
                       const SizedBox(height: 30),
-
-                      // Password Field
                       TextFormField(
                         controller: _passwordController,
                         obscureText: true,
@@ -143,16 +173,11 @@ class _RegistrationViewState extends State<RegistrationView> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         style: const TextStyle(color: Colors.white),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
-                          }
-                          return null;
-                        },
+                        validator: (value) => value == null || value.isEmpty
+                            ? 'Please enter your password'
+                            : null,
                       ),
                       const SizedBox(height: 40),
-
-                      // Sign-Up Button
                       ElevatedButton(
                         onPressed: () {
                           if (_registerViewFormKey.currentState!.validate()) {
@@ -176,6 +201,7 @@ class _RegistrationViewState extends State<RegistrationView> {
                                     avatar: imageName,
                                   ),
                                 );
+                            _onRegistrationSuccess(context);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -190,8 +216,6 @@ class _RegistrationViewState extends State<RegistrationView> {
                         ),
                       ),
                       const SizedBox(height: 15),
-
-                      // Login Link
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
