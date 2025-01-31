@@ -1,8 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:equatable/equatable.dart';
+import 'package:demo_test/app/shared_prefs/token_shared_prefs.dart';
 import 'package:demo_test/app/usecase/usecase.dart';
 import 'package:demo_test/core/error/failure.dart';
 import 'package:demo_test/features/auth/domain/repository/user_repository.dart';
+import 'package:equatable/equatable.dart';
+
 
 class LoginParams extends Equatable {
   final String email;
@@ -23,11 +25,23 @@ class LoginParams extends Equatable {
 
 class LoginUsecase implements UsecaseWithParams<String, LoginParams> {
   final IUserRepository repository;
+  final TokenSharedPrefs tokenSharedPrefs;
 
-  LoginUsecase(this.repository);
+  LoginUsecase(this.repository, this.tokenSharedPrefs);
 
   @override
   Future<Either<Failure, String>> call(LoginParams params) {
-    return repository.loginUser(params.email, params.password);
+    return repository.loginUser(params.email, params.password).then((value) {
+      return value.fold(
+        (failure) => Left(failure),
+        (token) {
+          tokenSharedPrefs.saveToken(token);
+          tokenSharedPrefs.getToken().then((value) {
+            print(value);
+          });
+          return Right(token);
+        },
+      );
+    });
   }
 }

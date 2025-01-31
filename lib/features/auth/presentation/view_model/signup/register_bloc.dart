@@ -1,24 +1,28 @@
+import 'dart:io';
+
+import 'package:demo_test/core/common/snackbar/my_snackbar.dart';
+import 'package:demo_test/features/auth/domain/use_case/create_user_usecase.dart';
+import 'package:demo_test/features/auth/domain/use_case/upload_image_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:demo_test/core/common/snackbar/my_snackbar.dart';
-import 'package:demo_test/features/auth/domain/use_case/create_user_usecase.dart';
+
 
 part 'register_event.dart';
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  // final LoginBloc _loginBloc;
   final CreateUserUsecase _createUserUsecase;
+  final UploadImageUsecase _uploadImageUsecase;
+
   RegisterBloc({
-    // required LoginBloc loginBloc,
     required CreateUserUsecase createUserUsecase,
-  })  :
-        // _loginBloc = loginBloc,
-        _createUserUsecase = createUserUsecase,
+    required UploadImageUsecase uploadImageUsecase,
+  })  : _createUserUsecase = createUserUsecase,
+        _uploadImageUsecase = uploadImageUsecase,
         super(RegisterState.initial()) {
     on<RegisterUserEvent>(_onRegisterUserEvent);
-    // on<NavigateLoginScreenEvent>(_onNavigateLoginScreenEvent);
+    on<LoadImage>(_onLoadImage);
   }
 
   Future<void> _onRegisterUserEvent(
@@ -32,7 +36,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           password: event.password,
           phone: '',
           address: '',
-          role: "User"),
+          avatar: event.avatar,
+          role: "user"),
     );
     newUser.fold(
       (l) => emit(state.copyWith(isLoading: false, isSuccess: false)),
@@ -40,6 +45,25 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         emit(state.copyWith(isLoading: false, isSuccess: true));
         showMySnackBar(
             context: event.context, message: "Registration Successful");
+      },
+    );
+  }
+
+  void _onLoadImage(
+    LoadImage event,
+    Emitter<RegisterState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+    final result = await _uploadImageUsecase.call(
+      UploadImageParams(
+        file: event.file,
+      ),
+    );
+
+    result.fold(
+      (l) => emit(state.copyWith(isLoading: false, isSuccess: false)),
+      (r) {
+        emit(state.copyWith(isLoading: false, isSuccess: true, imageName: r));
       },
     );
   }

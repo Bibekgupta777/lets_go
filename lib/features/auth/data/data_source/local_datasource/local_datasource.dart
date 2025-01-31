@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:demo_test/core/network/hive_service.dart';
 import 'package:demo_test/features/auth/data/data_source/user_data_source.dart';
 import 'package:demo_test/features/auth/data/model/user_hive_model.dart';
@@ -19,7 +21,7 @@ class UserLocalDataSource implements IUserDataSource {
       throw Exception(e);
     }
   }
-    
+
   @override
   Future<String> loginUser(String email, String password)async {
     try {
@@ -27,7 +29,7 @@ class UserLocalDataSource implements IUserDataSource {
       return Future.value("Success");
     } catch (e) {
       return Future.error(e);
-      
+
     }
   }
 
@@ -49,5 +51,11 @@ class UserLocalDataSource implements IUserDataSource {
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  @override
+  Future<String> uploadProfilePicture(File file) {
+    // TODO: implement uploadProfilePicture
+    throw UnimplementedError();
   }
 }

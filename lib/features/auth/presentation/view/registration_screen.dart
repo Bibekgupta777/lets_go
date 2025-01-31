@@ -1,16 +1,48 @@
+import 'dart:io';
+
+import 'package:demo_test/features/auth/presentation/view/login_screen.dart';
 import 'package:demo_test/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class RegistrationView extends StatelessWidget {
-  RegistrationView({super.key});
+class RegistrationView extends StatefulWidget {
+  const RegistrationView({super.key});
 
-  final fullNameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  @override
+  State<RegistrationView> createState() => _RegistrationViewState();
+}
 
-  // Key for form validation
+class _RegistrationViewState extends State<RegistrationView> {
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   final _registerViewFormKey = GlobalKey<FormState>();
+  File? _img;
+
+  // Request runtime camera permission
+  Future<void> checkCameraPermission() async {
+    var status = await Permission.camera.request();
+    if (status.isDenied || status.isRestricted) {
+      await Permission.camera.request();
+    }
+  }
+
+  // Pick an image from the gallery or camera
+  Future<void> _browseImage(ImageSource imageSource) async {
+    try {
+      final image = await ImagePicker().pickImage(source: imageSource);
+      if (image != null) {
+        setState(() {
+          _img = File(image.path);
+          context.read<RegisterBloc>().add(LoadImage(file: _img!));
+        });
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,160 +60,157 @@ class RegistrationView extends StatelessWidget {
           ),
           child: Column(
             children: [
-              // Top Section
-              Flexible(
-                flex: 5,
-                fit: FlexFit.tight,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Logo
-                    Image.asset(
-                      'assets/images/logo.png',
-                      height: 150,
-                    ),
-                    const SizedBox(height: 50),
-
-                    // Sign Up Text
-                    const Text(
-                      'Sign Up',
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
+              const SizedBox(height: 120),
+              const Text(
+                'Sign Up',
+                style: TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+              const SizedBox(height: 50),
+              GestureDetector(
+                onTap: () => _browseImage(ImageSource.gallery),
+                child: CircleAvatar(
+                  radius: 60,
+                  backgroundColor: Colors.white,
+                  backgroundImage: _img != null ? FileImage(_img!) : null,
+                  child: _img == null
+                      ? const Icon(Icons.camera_alt,
+                          size: 40, color: Colors.grey)
+                      : null,
                 ),
               ),
-
-              // Middle Section
-              Flexible(
-                flex: 10,
-                fit: FlexFit.tight,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Form(
-                    key: _registerViewFormKey, // Attach form key
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Full Name TextFormField
-                        TextFormField(
-                          controller: fullNameController,
-                          decoration: InputDecoration(
-                            labelText: 'Full Name',
-                            labelStyle: const TextStyle(color: Colors.white),
-                            filled: true,
-                            fillColor: Colors.white.withOpacity(0.1),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          style: const TextStyle(color: Colors.white),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your full name';
-                            }
-                            return null;
-                          },
+              const SizedBox(height: 70),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Form(
+                  key: _registerViewFormKey,
+                  child: Column(
+                    children: [
+                      // Full Name Field
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          labelText: 'Full Name',
+                          labelStyle: const TextStyle(color: Colors.white),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.1),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
                         ),
-                        const SizedBox(height: 20),
+                        style: const TextStyle(color: Colors.white),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your full name';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 30),
 
-                        // Email TextFormField
-                        TextFormField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                            labelText: 'Email',
-                            labelStyle: const TextStyle(color: Colors.white),
-                            filled: true,
-                            fillColor: Colors.white.withOpacity(0.1),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          style: const TextStyle(color: Colors.white),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            return null;
-                          },
+                      // Email Field
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          labelStyle: const TextStyle(color: Colors.white),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.1),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
                         ),
-                        const SizedBox(height: 20),
+                        style: const TextStyle(color: Colors.white),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 30),
 
-                        // Password TextFormField
-                        TextFormField(
-                          controller: passwordController,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            labelStyle: const TextStyle(color: Colors.white),
-                            filled: true,
-                            fillColor: Colors.white.withOpacity(0.1),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          style: const TextStyle(color: Colors.white),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your password';
-                            }
-                            return null;
-                          },
+                      // Password Field
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          labelStyle: const TextStyle(color: Colors.white),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.1),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
                         ),
-                        const SizedBox(height: 30),
+                        style: const TextStyle(color: Colors.white),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 40),
 
-                        // Sign Up Button
-                        ElevatedButton(
-                          onPressed: () {
-                            if (_registerViewFormKey.currentState!.validate()) {
-                              context.read<RegisterBloc>().add(
-                                    RegisterUserEvent(
-                                      context: context,
-                                      fullName: fullNameController.text.trim(),
-                                      email: emailController.text.trim(),
-                                      password: passwordController.text.trim(),
-                                    ),
-                                  );
-                            } else {
+                      // Sign-Up Button
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_registerViewFormKey.currentState!.validate()) {
+                            if (_img == null) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content:
-                                        Text('Please fill all the feilds')),
+                                    content: Text(
+                                        'Please select a profile picture')),
                               );
+                              return;
                             }
-                          },
-                          child: const Text(
-                            'Sign Up',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                            final registerState =
+                                context.read<RegisterBloc>().state;
+                            final imageName = registerState.imageName;
+                            context.read<RegisterBloc>().add(
+                                  RegisterUserEvent(
+                                    context: context,
+                                    fullName: _nameController.text.trim(),
+                                    email: _emailController.text.trim(),
+                                    password: _passwordController.text.trim(),
+                                    avatar: imageName,
+                                  ),
+                                );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Please fill all the fields')),
+                            );
+                          }
+                        },
+                        child: const Text(
+                          'Sign Up',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(height: 15),
+                      ),
+                      const SizedBox(height: 15),
 
-                        // Already have an account Text
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Already have an account? ",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                "Login",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      // Login Link
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Already have an account? ",
+                              style: TextStyle(color: Colors.white)),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginView()),
+                              );
+                            },
+                            child: const Text("Login",
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
