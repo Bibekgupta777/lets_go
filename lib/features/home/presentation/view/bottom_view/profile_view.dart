@@ -90,15 +90,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 100),
 
             // User Information Fields
             _buildTextField("Name", _nameController, _isEditing),
-            const SizedBox(height: 16),
+            const SizedBox(height: 36),
             _buildTextField("Email", _emailController, _isEditing),
-            const SizedBox(height: 16),
+            const SizedBox(height: 36),
             _buildTextField("Phone Number", _phoneController, _isEditing),
-            const SizedBox(height: 16),
+            const SizedBox(height: 36),
             _buildTextField("Address", _addressController, _isEditing),
             const SizedBox(height: 30),
 

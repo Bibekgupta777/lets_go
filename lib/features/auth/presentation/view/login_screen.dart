@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginView extends StatelessWidget {
- LoginView({super.key});
+  LoginView({super.key});
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -30,21 +30,28 @@ class LoginView extends StatelessWidget {
             children: [
               // Top Section
               Flexible(
-                flex: 9,
+                flex: 15,
                 fit: FlexFit.tight,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // Login Text
+                    const Text(
+                      'Welcome',
+                      style: TextStyle(
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                     // Logo
                     Image.asset(
                       'assets/images/logo.png',
                       height: 150,
                     ),
                     const SizedBox(height: 30),
-
-                    // Login Text
                     const Text(
-                      'Login',
+                      'Login Page',
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -57,7 +64,7 @@ class LoginView extends StatelessWidget {
 
               // Middle Section
               Flexible(
-                flex: 8,
+                flex: 15,
                 fit: FlexFit.tight,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -163,13 +170,13 @@ class LoginView extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () {
-                              context.read<LoginBloc>().add(
-                                    NavigateRegisterScreenEvent(
-                                      context: context,
-                                      destination:  RegistrationView(),
-                                    ),
-                                  );
-                            },
+                                context.read<LoginBloc>().add(
+                                      NavigateRegisterScreenEvent(
+                                        context: context,
+                                        destination: RegistrationView(),
+                                      ),
+                                    );
+                              },
                               child: const Text(
                                 "Create one",
                                 style: TextStyle(color: Colors.white),

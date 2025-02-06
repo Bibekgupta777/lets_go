@@ -101,12 +101,20 @@ class _RegistrationViewState extends State<RegistrationView> {
           ),
           child: Column(
             children: [
-              const SizedBox(height: 120),
+              const SizedBox(height: 100),
               const Text(
                 'Sign Up',
                 style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Create Your Account',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
                     color: Colors.white),
               ),
               const SizedBox(height: 50),
@@ -122,7 +130,7 @@ class _RegistrationViewState extends State<RegistrationView> {
                       : null,
                 ),
               ),
-              const SizedBox(height: 70),
+              const SizedBox(height: 50),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Form(
