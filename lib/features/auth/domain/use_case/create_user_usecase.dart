@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:equatable/equatable.dart';
 import 'package:demo_test/app/usecase/usecase.dart';
 import 'package:demo_test/core/error/failure.dart';
 import 'package:demo_test/features/auth/domain/entity/user_entity.dart';
 import 'package:demo_test/features/auth/domain/repository/user_repository.dart';
+import 'package:equatable/equatable.dart';
+
 
 class CreateUserParams extends Equatable {
   final String fullName;
@@ -25,7 +26,14 @@ class CreateUserParams extends Equatable {
   });
 
   //Empty constructor
-  // const CreateUserParams.empty() : fullName = '_empty.string';
+  const CreateUserParams.empty()
+      : fullName = '_empty.string',
+        email = '_empty.email',
+        password = '_empty.password',
+        phone = '_empty.phone',
+        address = '_empty.address',
+        role = '_empty.role',
+        avatar = null;
 
   @override
   List<Object?> get props => [fullName];
