@@ -1,10 +1,31 @@
-part of 'dashboard_bloc.dart';
+import 'package:demo_test/features/dashboard/domain/entity/schedule.dart';
+import 'package:equatable/equatable.dart';
 
-sealed class DashboardState extends Equatable {
+abstract class DashboardState extends Equatable {
   const DashboardState();
-  
+
   @override
   List<Object> get props => [];
 }
 
-final class DashboardInitial extends DashboardState {}
+class DashboardInitial extends DashboardState {}
+
+class DashboardLoading extends DashboardState {}
+
+class DashboardLoaded extends DashboardState {
+  final List<Schedule> schedules;
+
+  const DashboardLoaded({required this.schedules});
+
+  @override
+  List<Object> get props => [schedules];
+}
+
+class DashboardError extends DashboardState {
+  final String message;
+
+  const DashboardError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}

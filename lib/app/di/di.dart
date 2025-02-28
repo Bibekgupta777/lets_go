@@ -1,4 +1,5 @@
 import 'package:demo_test/app/shared_prefs/token_shared_prefs.dart';
+import 'package:demo_test/core/network/api_service.dart';
 import 'package:demo_test/core/network/hive_service.dart';
 import 'package:demo_test/features/auth/data/data_source/local_datasource/local_datasource.dart';
 import 'package:demo_test/features/auth/data/data_source/remote_datasource/remote_datasource.dart';
@@ -9,14 +10,18 @@ import 'package:demo_test/features/auth/domain/use_case/login_usecase.dart';
 import 'package:demo_test/features/auth/domain/use_case/upload_image_usecase.dart';
 import 'package:demo_test/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:demo_test/features/auth/presentation/view_model/signup/register_bloc.dart';
+import 'package:demo_test/features/dashboard/data/data_source/dashboard_remote_data_source.dart';
+import 'package:demo_test/features/dashboard/data/repositories/dashboard_repository_impl.dart';
+import 'package:demo_test/features/dashboard/domain/repository/dashboard_repository.dart';
+import 'package:demo_test/features/dashboard/domain/use_case/get_schedules_usecase.dart';
+import 'package:demo_test/features/dashboard/presentation/view_model/dashboard_bloc.dart';
 import 'package:demo_test/features/home/presentation/view_model/home_cubit.dart';
-
 import 'package:demo_test/features/onBoarding/presentation/view_model/onboarding_cubit.dart';
 import 'package:demo_test/features/splash/presentation/view_model/splash_cubit.dart';
 import 'package:dio/dio.dart';
-import 'package:demo_test/core/network/api_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 final getIt = GetIt.instance;
 
 Future<void> initDependencies() async {
@@ -27,6 +32,7 @@ Future<void> initDependencies() async {
   await _initHomeDependencies();
   await _initRegisterDependencies();
   await _initLoginDependencies();
+  await _initDashboardDependencies();
 
   await _initOnBoardingScreenDependencies();
   await _initSplashScreenDependencies();
@@ -121,5 +127,31 @@ _initLoginDependencies() async {
 _initSplashScreenDependencies() async {
   getIt.registerFactory(
     () => SplashCubit(getIt<OnboardingCubit>()),
+  );
+}
+
+Future<void> _initDashboardDependencies() async {
+  // Remote Data Source
+  getIt.registerLazySingleton<DashboardRemoteDataSource>(
+    () => DashboardRemoteDataSourceImpl(getIt<Dio>()),
+  );
+
+  // Repository
+  getIt.registerLazySingleton<DashboardRepository>(
+    () => DashboardRepositoryImpl(
+      remoteDataSource: getIt<DashboardRemoteDataSource>(),
+    ),
+  );
+
+  // Use Case
+  getIt.registerLazySingleton<GetSchedulesUseCase>(
+    () => GetSchedulesUseCase(getIt<DashboardRepository>()),
+  );
+
+  // Bloc
+  getIt.registerFactory<DashboardBloc>(
+    () => DashboardBloc(
+      getSchedulesUseCase: getIt<GetSchedulesUseCase>(),
+    ),
   );
 }

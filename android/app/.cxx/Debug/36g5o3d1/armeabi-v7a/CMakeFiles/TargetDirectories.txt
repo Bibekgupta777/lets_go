@@ -1,0 +1,2 @@
+C:/Desktop/lets_go/android/app/.cxx/Debug/36g5o3d1/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Desktop/lets_go/android/app/.cxx/Debug/36g5o3d1/armeabi-v7a/CMakeFiles/rebuild_cache.dir

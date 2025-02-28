@@ -1,5 +1,5 @@
+import 'package:demo_test/features/dashboard/presentation/widgets/dashboard_body.dart';
 import 'package:demo_test/features/home/presentation/view/bottom_view/about_us_view.dart';
-import 'package:demo_test/features/home/presentation/view/bottom_view/home_view.dart';
 import 'package:demo_test/features/home/presentation/view/bottom_view/profile_view.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class HomeState extends Equatable {
     return const HomeState(
       selectedIndex: 0,
       views: [
-        HomeView(),
+        DashboardBody(),
         Center(
           child: Text('Tickets'),
         ),

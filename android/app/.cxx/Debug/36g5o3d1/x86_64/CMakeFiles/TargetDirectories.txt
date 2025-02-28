@@ -1,0 +1,2 @@
+C:/Desktop/lets_go/android/app/.cxx/Debug/36g5o3d1/x86_64/CMakeFiles/edit_cache.dir
+C:/Desktop/lets_go/android/app/.cxx/Debug/36g5o3d1/x86_64/CMakeFiles/rebuild_cache.dir
